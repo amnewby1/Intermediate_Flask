@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/app.css">
+    <title>List of Pets</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="display-1">Current Pets</h1>
+        <table class="table">
+            <thead class="thead-dark">
+                <th>Name</th>
+                <th>Species</th>
+                <th>Picture</th>
+                <th>Age</th>
+                <th>Notes</th>
+                <th>Available</th>
+            </thead>
+            <tbody>
+                {% for msg in get_flashed_messages() %}
+                <p>
+                    {{msg}}
+                </p>
+                {% endfor %}
+                {% for pet in pets %}
+                <tr>
+                    <td><a href="/pets/{{pet.id}}">{{pet.name}}</a></td>
+                    <td>{{pet.species}}</td>
+                    {% if pet.photo_url %}
+                    <td><img src="{{pet.photo_url}}" alt=""></td>
+                    {% else %}
+                    <td class="text-danger">NO PHOTO</td>
+                    {% endif %}
+                    {% if pet.age %}
+                    <td>{{pet.age}}</td>
+                    {% else %}
+                    <td class="text-danger">AGE UNKNOWN</td>
+                    {% endif %}
+                    {% if pet.notes %}
+                    <td>{{pet.notes}}</td>
+                    {% else %}
+                    <td class="text-danger">NO NOTES</td>
+                    {% endif %}
+                    {% if pet.available %}
+                    <td><b>This pet is available for adoption! </b></td>
+                    {% else %}
+                    <td><b>Sorry, already adopted.</b></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/pets/add" class="btn btn-success">Add Pet</a>
+
+    </div>
+</body>
+
+</html>

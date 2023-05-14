@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/app.css">
+    <title>Display and Edit Pet</title>
+</head>
+
+<body>
+    <h1>{{pet.name}}</h1>
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
+                <th>Name</th>
+                <th>Species</th>
+                <th>Picture</th>
+                <th>Age</th>
+                <th>Notes</th>
+                <th>Available</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{pet.name}}</td>
+                    <td>{{pet.species}}</td>
+                    {% if pet.photo_url %}
+                    <td><img src="{{pet.photo_url}}" alt=""></td>
+                    {% else %}
+                    <td class="text-danger">NO PHOTO</td>
+                    {% endif %}
+                    {% if pet.age %}
+                    <td>{{pet.age}}</td>
+                    {% else %}
+                    <td class="text-danger">AGE UNKNOWN</td>
+                    {% endif %}
+                    {% if pet.notes %}
+                    <td>{{pet.notes}}</td>
+                    {% else %}
+                    <td class="text-danger">NO NOTES</td>
+                    {% endif %}
+                    {% if pet.available %}
+                    <td><b>This pet is available for adoption! </b></td>
+                    {% else %}
+                    <td><b>Sorry, already adopted.</b></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h3 class="text-center">Edit Pet</h1>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form action="/pets/{{pet.id}}" method="POST">
+                        {{form.hidden_tag()}}
+                        {% for field in form
+                        if field.widget.input_type != 'hidden' %}
+                        <div class="form-group">
+                            {{field.label}}
+                            {{field(class_="form-control")}}
+
+                            {% for err in field.errors %}
+                            <small class="form-text text-danger">
+                                {{err}}
+                            </small>
+
+                            {% endfor %}
+                        </div>
+
+                        {% endfor %}
+                        <button class="btn-success btn-lg">Save</button>
+                        <button formaction="/pets/{{pet.id}}/delete" formmethod="POST"
+                            class="btn-danger btn-lg">Delete</button>
+                        <button formaction="/pets" formmethod="GET" class="btn-dark btn-lg">Go Back</button>
+
+                    </form>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
