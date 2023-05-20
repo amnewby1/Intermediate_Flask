@@ -13,7 +13,8 @@ def connect_db(app):
 
 class Cupcake(db.Model):
     """Cupcake Model"""
-    __table_name="cupcakes"
+
+    __tablename__="cupcakes"
 
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
     flavor=db.Column(db.Text, nullable=False)

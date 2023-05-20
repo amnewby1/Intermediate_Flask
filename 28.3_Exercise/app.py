@@ -21,7 +21,7 @@ def home_page():
 @app.route('/api/cupcakes')
 def all_cupcakes():
     all_cupcakes = [cupcake.serialize_cupcake() for cupcake in Cupcake.query.all()]
-    return jsonify(todo=all_cupcakes)
+    return jsonify(cupcake=all_cupcakes)
 
 @app.route('/api/cupcakes/<int:id>')
 def get_cupcake(id):
@@ -37,7 +37,7 @@ def create_cupcake():
     return(response_json, 201)
 
 @app.route('/api/cupcakes/<int:id>', methods=["PATCH"])
-def update_todo(id):
+def update_cupcake(id):
     cupcake=Cupcake.query.get_or_404(id)
     cupcake.flavor=request.json.get('flavor', cupcake.flavor)
     cupcake.size=request.json.get('size', cupcake.size)
