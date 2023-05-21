@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align: center;">User Information</h1>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item"> Username: {{user.username}}</li>
+        <li class="list-group-item">Email: {{user.email}}</li>
+        <li class="list-group-item">First Name: {{user.first_name}}</li>
+        <li class="list-group-item">Last Name: {{user.last_name}}</li>
+    </ul>
+    <a href="/users/{{user.username}}/feedback/add" class="btn btn-info btn-lg">Add Feedback</a>
+    <a href="/logout" class="btn btn-dark btn-lg">Logout</a>
+    {% if session['username'] == user.username %}
+    <form style="display:inline;" action="/users/{{user.username}}/delete" method="POST">
+        <button class="btn btn-lg btn-danger">Delete User<i class="fas fa-trash"></i></button>
+    </form>
+    {% endif %}
+</div>
+
+<div>
+    <h3 style="text-align: center;">User Feedback</h3>
+    {% for feedback in feedbacks %}
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title text-info">
+                {{feedback.user.username}}
+                {% if session['username'] == feedback.user.username %}
+                <form style="display:inline;" action="/feedback/{{feedback.id}}/delete" method="POST">
+                    <button class="btn btn-lg btn-danger"><i class="fas fa-trash"></i></button>
+                    <a href="/feedback/{{feedback.id}}/update" class="btn btn-dark btn-lg">Edit</a>
+
+                </form>
+                {% endif %}
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{feedback.title}}</h6>
+            <p class="card-text">
+                {{feedback.content}}
+            </p>
+
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+
+
+
+    {% endblock%}
