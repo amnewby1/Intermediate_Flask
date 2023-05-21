@@ -14,31 +14,30 @@ const getCupcakes = async () => {
 };
 
 //Handle form submission
-$("#addCupcake").on("submit", async function (evt) {
-  evt.preventDefault();
+const handleSubmit = async () => {
+  console.log("got here!");
 
-  let flavor = document.getElementByID("flavor").val();
-  let rating = document.getElementByID("rating").val();
-  let size = document.getElementByID("size").val();
-  let image = document.getElementByID("image").val();
+  let flavor = document.getElementById("flavor").value;
+  let rating = document.getElementById("rating").value;
+  let size = document.getElementById("size").value;
+  let image = document.getElementById("image").value;
 
   const newCupcakeResponse = await axios.post(
     "http://127.0.0.1:5000/api/cupcakes",
     { flavor, rating, size, image }
   );
 
-  let newCupcake = $(makeCupcakeMarkup(newCupcakeResponse.data.cupcake));
+  let newCupcake = makeCupcakeMarkup(newCupcakeResponse.data.cupcake);
   $("#list_of_cupcakes").append(newCupcake);
   $("#addCupcake").trigger("reset");
-});
-
+};
 //delete cupcake
-$("#list_of_cupcakes").on("click", ".delete-button", async function (evt) {
+$("#cupcakes-list").on("click", ".delete-button", async function (evt) {
   evt.preventDefault();
-  let $cupcake = $(evt.target).closest("li");
+  let $cupcake = $(evt.target).closest("div");
   let cupcakeId = $cupcake.attr("data-cupcake-id");
 
-  await axios.delete(`http://127.0.0.1:5000/apicupcakes/${cupcakeId}`);
+  await axios.delete(`${BASE_URL}/cupcakes/${cupcakeId}`);
   $cupcake.remove();
 });
 
